@@ -1,0 +1,13 @@
+langchain-core
+langchain-groq
+langchain-community 
+fastapi
+pypdf
+transformers
+python-dotenv
+pydantic
+chromadb
+torch
+sentence-transformers
+faiss-cpu
+streamlit
