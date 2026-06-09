@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+# pyrefly: ignore [missing-import]
 from modules.vectorstore import FaissVectorStore
 from langchain_groq import ChatGroq
 
@@ -53,7 +54,11 @@ class RAGSearch:
         groq_api_key = os.getenv("GROQ_API_KEY")
         if not groq_api_key:
             raise ValueError("GROQ_API_KEY environment variable is not set. Please define it in your .env file.")
-        self.llm = ChatGroq(groq_api_key=groq_api_key, model_name=llm_model)
+        self.llm = ChatGroq(
+            groq_api_key=groq_api_key,
+            model=llm_model,
+            temperature=0.1,
+            )
         print(f"[INFO] Groq LLM initialized: {llm_model}")
 
     def search_and_summarize(self, query: str, top_k: int = 5) -> str:

@@ -2,15 +2,16 @@
 
 An interactive, high-performance Retrieval-Augmented Generation (RAG) chatbot designed to parse, index, and answer questions from your local PDF and TXT documents. 
 
-Built using **LangChain**, **FAISS**, **SentenceTransformers**, and **Groq (Llama 3)**, featuring a responsive **Streamlit** user interface.
+Built using a decoupled client-server architecture with a **FastAPI** backend, a **Streamlit** frontend interface, and orchestrated via **LangChain**, **FAISS**, **SentenceTransformers**, and **Groq (Llama 3)**.
 
 ---
 
 ## ✨ Key Features
 
-- **📂 Real-Time Document Center:** Drag-and-drop file uploader to dynamically save and index your own PDF or TXT files.
+- **🔌 Decoupled Client-Server Architecture:** Built with a FastAPI backend API and a Streamlit frontend client. The backend can be run, tested, and integrated with any third-party client.
+- **📂 Real-Time Document Center:** Drag-and-drop file uploader to dynamically save, structure, and index your PDF, TXT, CSV, DOCX, or MD files.
 - **⚡ Auto-Incremental Indexing:** Automatically scans your data folder on startup and indexes *only* new or updated files in seconds. Launching with an existing index is instant (under 0.5s).
-- **💬 Conversational Chat Interface:** A clean, ChatGPT-like chat log that maintains conversation history.
+- **💬 Conversational Chat Interface:** A clean, ChatGPT-like chat log that maintains conversation history and checks server health status.
 - **🔍 References & Citations:** Each answer features a collapsible panel displaying the exact text passages and source files retrieved from the vector store.
 - **🧼 Math Notation Sanitization:** Custom Unicode normalization to cleanly translate complex mathematical symbols and remove PDF font extraction corruption.
 - **🔐 Secure Credentials:** Environment variable configuration to keep API keys private.
@@ -32,9 +33,9 @@ Built using **LangChain**, **FAISS**, **SentenceTransformers**, and **Groq (Llam
 
 ```text
 ├── client/
-│   └── app.py                # Streamlit Frontend UI
+│   └── app.py                # Streamlit Frontend UI (Communicates with Backend API)
 ├── server/
-│   ├── main.py               # CLI backend test script
+│   ├── main.py               # FastAPI Backend API Server
 │   └── modules/
 │       ├── data_loader.py    # Document load, extraction & sanitization
 │       ├── embedding.py      # Embedding manager class
@@ -89,22 +90,22 @@ GROQ_API_KEY=your_groq_api_key_here
 
 ### 5. Launch the Chatbot
 
-**Run the Web Interface (Streamlit):**
+Since the application is split into a backend API server and a frontend client, you need to run both:
+
+**Step A: Run the Backend API Server (FastAPI):**
+```bash
+.venv\Scripts\uvicorn server.main:app --reload --host 127.0.0.1 --port 8000
+```
+This runs the FastAPI server at `http://127.0.0.1:8000` and automatically handles loading/scanning documents and processing RAG queries. You can access the API interactive Swagger documentation at `http://127.0.0.1:8000/docs`.
+
+**Step B: Run the Web Interface (Streamlit):**
+In a new terminal window:
 ```bash
 .venv\Scripts\streamlit run client/app.py
 ```
 This will open your default browser to `http://localhost:8501`.
 
-**Run the CLI Test Script:**
-```bash
-.venv\Scripts\python.exe server/main.py
-```
-This runs a quick check on the vector store, queries a sample question about microscopes, and outputs the raw LLM response to the console.
-
 ---
 
 ## 📝 License
 This project is open-source and available under the MIT License.
-"# local-document-rag-chatbot" 
-"# local-document-rag-chatbot" 
-"# local-document-rag-chatbot" 

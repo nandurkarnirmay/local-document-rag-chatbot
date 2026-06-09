@@ -11,3 +11,5 @@ torch
 sentence-transformers
 faiss-cpu
 streamlit
+uvicorn
+requests
