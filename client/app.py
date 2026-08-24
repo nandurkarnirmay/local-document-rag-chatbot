@@ -76,17 +76,6 @@ with st.sidebar:
             st.error(f"Error fetching sources: {e}")
             indexed_sources = []
     
-    st.subheader(f"Indexed Documents ({len(indexed_sources)})")
-    if indexed_sources:
-        for idx, src in enumerate(indexed_sources):
-            filename = os.path.basename(src)
-            st.markdown(f"**{idx + 1}.** `{filename}`")
-    else:
-        if is_backend_online:
-            st.info("No documents are currently indexed.")
-        
-    st.markdown("---")
-    
     st.subheader("Upload Documents")
     uploaded_files = st.file_uploader(
         "Upload files", 
@@ -95,6 +84,17 @@ with st.sidebar:
         disabled=not is_backend_online,
         key=f"uploader_{st.session_state.uploader_key}"
     )
+
+    st.markdown("---")
+
+    st.subheader(f"Indexed Documents ({len(indexed_sources)})")
+    if indexed_sources:
+        for idx, src in enumerate(indexed_sources):
+            filename = os.path.basename(src)
+            st.markdown(f"**{idx + 1}.** `{filename}`")
+    else:
+        if is_backend_online:
+            st.info("No documents are currently indexed.")
     
     if uploaded_files and is_backend_online:
         # Prevent upload loop by checking cache of already processed files in current run
