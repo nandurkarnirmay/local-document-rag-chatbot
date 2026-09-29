@@ -13,3 +13,4 @@ faiss-cpu
 streamlit
 uvicorn
 requests
+ngrok

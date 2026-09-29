@@ -15,6 +15,7 @@ Built using a decoupled client-server architecture with a **FastAPI** backend, a
 - **🔍 References & Citations:** Each answer features a collapsible panel displaying the exact text passages and source files retrieved from the vector store.
 - **🧼 Math Notation Sanitization:** Custom Unicode normalization to cleanly translate complex mathematical symbols and remove PDF font extraction corruption.
 - **🔐 Secure Credentials:** Environment variable configuration to keep API keys private.
+- **🛡️ LangChain Guardrails:** Strict prompt-based safeguards to prevent hallucinations, block prompt injections, and filter out toxic language.
 
 ---
 
@@ -46,7 +47,8 @@ Built using a decoupled client-server architecture with a **FastAPI** backend, a
 ├── faiss_store/              # Saved local FAISS index (Created on startup)
 ├── .env                      # API Configuration file (Ignored by git)
 ├── pyproject.toml            # Project dependencies & tool configurations
-└── requirements.txt          # Python dependencies
+├── requirements.txt          # Python dependencies
+└── test_guardrails.py        # Automated test script for LangChain safety checks
 ```
 
 ---
@@ -104,6 +106,29 @@ In a new terminal window:
 .venv\Scripts\streamlit run client/app.py
 ```
 This will open your default browser to `http://localhost:8501`.
+
+---
+
+## 🛡️ Testing Guardrails
+
+The project includes strict safety guardrails using LangChain. To verify the chatbot blocks prompt injections, prevents off-topic hallucinations, and rejects toxic inputs, run the included test script:
+
+```bash
+.venv\Scripts\python test_guardrails.py
+```
+
+---
+
+## 🌍 Hosting Publicly (Ngrok)
+
+Because the Streamlit frontend communicates internally with the FastAPI backend, you only need to expose the frontend port to host the full application securely.
+
+1. Ensure both the backend (Port 8000) and frontend (Port 8501) are running locally.
+2. Open a new terminal and run ngrok on the frontend port:
+```bash
+ngrok http 8501
+```
+3. Share the generated `ngrok.app` URL with anyone!
 
 ---
 
